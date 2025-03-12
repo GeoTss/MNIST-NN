@@ -219,19 +219,19 @@ train(const MnistData& mnistData) {
 
             t += 1;
             m_w1 = beta1 * m_w1 + (1 - beta1) * dw1;
-            v_w1 = beta2 * v_w1 + (1 - beta2) * dw1.array().square().matrix();
+            v_w1 = beta2 * v_w1 + (1 - beta2) * dw1.cwiseProduct(dw1);
             m_b1 = beta1 * m_b1 + (1 - beta1) * db1;
-            v_b1 = beta2 * v_b1 + (1 - beta2) * db1.array().square().matrix();
+            v_b1 = beta2 * v_b1 + (1 - beta2) * db1.cwiseProduct(db1);
 
             m_w2 = beta1 * m_w2 + (1 - beta1) * dw2;
-            v_w2 = beta2 * v_w2 + (1 - beta2) * dw2.array().square().matrix();
+            v_w2 = beta2 * v_w2 + (1 - beta2) * dw2.cwiseProduct(dw2);
             m_b2 = beta1 * m_b2 + (1 - beta1) * db2;
-            v_b2 = beta2 * v_b2 + (1 - beta2) * db2.array().square().matrix();
+            v_b2 = beta2 * v_b2 + (1 - beta2) * db2.cwiseProduct(db2);
 
             m_w3 = beta1 * m_w3 + (1 - beta1) * dw3;
-            v_w3 = beta2 * v_w3 + (1 - beta2) * dw3.array().square().matrix();
+            v_w3 = beta2 * v_w3 + (1 - beta2) * dw3.cwiseProduct(dw3);
             m_b3 = beta1 * m_b3 + (1 - beta1) * db3;
-            v_b3 = beta2 * v_b3 + (1 - beta2) * db3.array().square().matrix();
+            v_b3 = beta2 * v_b3 + (1 - beta2) * db3.cwiseProduct(db3);
 
             Eigen::MatrixXf m_w1_hat = m_w1 / (1 - std::pow(beta1, t));
             Eigen::MatrixXf v_w1_hat = v_w1 / (1 - std::pow(beta2, t));
