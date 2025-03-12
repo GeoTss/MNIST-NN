@@ -1,3 +1,1 @@
 # MNIST-NN
-# MNIST-NN
-# MNIST-NN
