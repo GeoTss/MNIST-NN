@@ -1,0 +1,6 @@
+[submodule "Neural-Network-Cpp"]
+	path = Neural-Network-Cpp
+	url = https://github.com/GeoTss/Neural-Network-Cpp
+[submodule "Neural-Network"]
+	path = Neural-Network
+	url = https://github.com/GeoTss/Neural-Network-Cpp.git
