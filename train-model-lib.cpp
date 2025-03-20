@@ -1,8 +1,8 @@
 #include <iostream>
 #include <vector>
-#include "Neural-Network/Neural_Network.hpp"
 #include "MnistDataLoader.hpp"
-
+#include "Neural-Network/Neural_Network.hpp"
+ 
 #define LOAD_NN
 
 template<typename T>

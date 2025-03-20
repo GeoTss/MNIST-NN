@@ -3,7 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <tuple>
-#include "Eigen/Core"
+#include <Eigen/Core>
 #include <random>
 
 #include "./MnistDataLoader.hpp"

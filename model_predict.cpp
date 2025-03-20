@@ -1,7 +1,8 @@
 #include <iostream>
-#include "Eigen/Core"
+#include <Eigen/Core>
 #include <fstream>
 
+#include "Neural-Network/Neural_Network.hpp"
 #include "MnistDataLoader.hpp"
 
 inline Eigen::MatrixXf ReLU(const Eigen::MatrixXf& Z) {
@@ -61,19 +62,24 @@ Eigen::MatrixXf readMatrixFromBinaryFile(std::ifstream& inFile) {
 }
 
 int main(int argc, char** argv){
-    std::ifstream inFile("./trained_model/model.bin", std::ios::binary);
-    if (!inFile) {
-        std::cerr << "Error opening file for reading: model.bin\n";
-        return 1;
-    }
-    auto w1 = readMatrixFromBinaryFile(inFile);
-    auto b1 = readMatrixFromBinaryFile(inFile);
-    auto w2 = readMatrixFromBinaryFile(inFile);
-    auto b2 = readMatrixFromBinaryFile(inFile);
-    auto w3 = readMatrixFromBinaryFile(inFile);
-    auto b3 = readMatrixFromBinaryFile(inFile);
 
-    inFile.close();
+    NeuralNetwork nn;
+    nn.loadModel("./trained_model/library_model.bin");
+
+
+    // std::ifstream inFile("./trained_model/model.bin", std::ios::binary);
+    // if (!inFile) {
+    //     std::cerr << "Error opening file for reading: model.bin\n";
+    //     return 1;
+    // }
+    // auto w1 = readMatrixFromBinaryFile(inFile);
+    // auto b1 = readMatrixFromBinaryFile(inFile);
+    // auto w2 = readMatrixFromBinaryFile(inFile);
+    // auto b2 = readMatrixFromBinaryFile(inFile);
+    // auto w3 = readMatrixFromBinaryFile(inFile);
+    // auto b3 = readMatrixFromBinaryFile(inFile);
+
+    // inFile.close();
 
     MnistData mnistDataLoader(GET_TEST_SET);
     
@@ -81,7 +87,7 @@ int main(int argc, char** argv){
         Eigen::MatrixXf test_case = mnistDataLoader.test_images.col(std::stoi(argv[i])).cast<float>();
         test_case /= 255.f;
 
-        std::cout << predict_digit(w1, b1, w2, b2, w3, b3, test_case) << ' ';
+        // std::cout << predict_digit(w1, b1, w2, b2, w3, b3, test_case) << ' ';
     }
     return 0;
 }

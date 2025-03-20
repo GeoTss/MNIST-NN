@@ -1,0 +1,55 @@
+cmake_minimum_required(VERSION 3.11)
+project(Digit_Classification LANGUAGES CXX)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+add_subdirectory(Neural-Network)
+
+# Set Release build type with optimizations
+# set(CMAKE_BUILD_TYPE Debug)
+
+# Enable optimization flags for release builds (default in Release)
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    message(STATUS "Building in Release mode with optimizations")
+    set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
+else()
+    message(STATUS "Building in Debug mode")
+endif()
+
+add_executable(train-model-lib train-model-lib.cpp)
+add_executable(model_predict model_predict.cpp)
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    target_compile_options(train-model-lib PRIVATE -O3)  # Enable optimization level 3 for GCC/Clang
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+    target_compile_options(train-model-lib PRIVATE /O2)  # Enable optimization for MSVC
+endif()
+
+set_property(TARGET train-model-lib model_predict PROPERTY CXX_STANDARD 20)
+set_property(TARGET train-model-lib model_predict PROPERTY CXX_STANDARD_REQUIRED ON)
+
+include(FetchContent)
+
+find_package(Eigen3 QUIET)
+
+if(NOT Eigen3_FOUND)
+
+    message(WARNING "Eigen not found! Fetching Eigen3 from GitHub...")
+
+    FetchContent_Declare(
+        Eigen3
+        GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
+        GIT_TAG 3.4.0  # Change this to the version you want
+    )
+    FetchContent_MakeAvailable(Eigen3)
+
+    set(Eigen3_INCLUDE_DIR ${eigen_SOURCE_DIR})
+else()
+    message(STATUS "Eigen found!")
+    get_target_property(Eigen3_INCLUDE_DIR Eigen3::Eigen INTERFACE_INCLUDE_DIRECTORIES)
+endif()
+
+message(STATUS "Eigen directory: ${Eigen3_INCLUDE_DIR}")
+
+target_include_directories(train-model-lib PRIVATE ${Eigen3_INCLUDE_DIR})
+target_include_directories(model_predict PRIVATE ${Eigen3_INCLUDE_DIR})
